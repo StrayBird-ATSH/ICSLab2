@@ -25,7 +25,7 @@ int get_vec_element(vec_ptr v, long index, data_t *dest);
 /* Macro version */
 #define GET_VEC_ELEMENT(v, index, dest) \
     !((index) < 0 || (index) >= (v)->len) && \
-    *(dest) = (v)->data[(index)], 1;
+    (*(dest) = (v)->data[(index)]), 1;
 
 
 data_t *get_vec_start(vec_ptr v);
