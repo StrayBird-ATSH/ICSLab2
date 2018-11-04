@@ -3,8 +3,7 @@
 
 /* $begin vec */
 /* Create vector of specified length */
-vec_ptr new_vec(long len)
-{
+vec_ptr new_vec(long len) {
     /* Allocate header structure */
     vec_ptr result = (vec_ptr) malloc(sizeof(vec_rec));
     data_t *data = NULL;
@@ -17,7 +16,7 @@ vec_ptr new_vec(long len)
 /* $begin vec */
     /* Allocate array */
     if (len > 0) {
-        data = (data_t *)calloc(len, sizeof(data_t));
+        data = (data_t *) calloc(len, sizeof(data_t));
         if (!data) {
             free((void *) result);
             return NULL; /* Couldn't allocate storage */
@@ -39,8 +38,7 @@ void free_vec(vec_ptr v) {
  * Retrieve vector element and store at dest.
  * Return 0 (out of bounds) or 1 (successful)
  */
-int get_vec_element(vec_ptr v, long index, data_t *dest)
-{
+int get_vec_element(vec_ptr v, long index, data_t *dest) {
     if (index < 0 || index >= v->len)
         return 0;
     *dest = v->data[index];
@@ -48,16 +46,14 @@ int get_vec_element(vec_ptr v, long index, data_t *dest)
 }
 
 /* Return length of vector */
-long vec_length(vec_ptr v)
-{
+long vec_length(vec_ptr v) {
     return v->len;
 }
 /* $end vec */
 
 
 /* $begin get_vec_start */
-data_t *get_vec_start(vec_ptr v)
-{
+data_t *get_vec_start(vec_ptr v) {
     return v->data;
 }
 /* $end get_vec_start */
@@ -67,8 +63,7 @@ data_t *get_vec_start(vec_ptr v)
  * Set vector element.
  * Return 0 (out of bounds) or 1 (successful)
  */
-int set_vec_element(vec_ptr v, long index, data_t val)
-{
+int set_vec_element(vec_ptr v, long index, data_t val) {
     if (index < 0 || index >= v->len)
         return 0;
     v->data[index] = val;
@@ -77,8 +72,7 @@ int set_vec_element(vec_ptr v, long index, data_t val)
 
 
 /* Set vector length.  If >= allocated length, will reallocate */
-void set_vec_length(vec_ptr v, long newlen)
-{
+void set_vec_length(vec_ptr v, long newlen) {
     if (newlen > v->allocated_len) {
         free(v->data);
         v->data = calloc(newlen, sizeof(data_t));

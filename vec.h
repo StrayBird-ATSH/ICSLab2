@@ -23,7 +23,7 @@ void free_vec(vec_ptr v);
 int get_vec_element(vec_ptr v, long index, data_t *dest);
 
 /* Macro version */
-#define GET_VEC_ELEMENT(v,index,dest) \
+#define GET_VEC_ELEMENT(v, index, dest) \
     !((index) < 0 || (index) >= (v)->len) && \
     *(dest) = (v)->data[(index)], 1;
 

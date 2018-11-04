@@ -3,4 +3,4 @@ project(ICSLab2 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(ICSLab2 main.c combine.h vec.c vec.h)
+add_executable(ICSLab2 combine.h vec.c vec.h combine.c)
