@@ -156,31 +156,35 @@ int methodGenerator(int accumulators, int unrollingFactor) {
                         default:
                             break;
                     }
-                }
-                switch (accumulators) {
-                    case 11:
-                        strcat(result, "x10 = x10 OP (d[i + 10] OP d[i + 11]);\n");
-                    case 10:
-                        strcat(result, "x9 = x9 OP (d[i + 9] OP d[i + 10]);\n");
-                    case 9:
-                        strcat(result, "x8 = x8 OP d[i + 8];\n");
-                    case 8:
-                        strcat(result, "x7 = x7 OP d[i + 7];\n");
-                    case 7:
-                        strcat(result, "x6 = x6 OP d[i + 6];\n");
-                    case 6:
-                        strcat(result, "x5 = x5 OP d[i + 5];\n");
-                    case 5:
-                        strcat(result, "x4 = x4 OP d[i + 4];\n");
-                    case 4:
-                        strcat(result, "x3 = x3 OP d[i + 3];\n");
-                    case 3:
-                        strcat(result, "x2 = x2 OP d[i + 2];\n");
-                    case 2:
-                        strcat(result, "x1 = x1 OP d[i + 1];\n");
-                    default:
-                        break;
-                }
+                } else if (accumulators >= 4) {
+                    switch (accumulators) {
+                        case 4:
+                            strcat(result, "x3 = x3 OP (d[i+9] OP (d[i+10] OP d[i+11]));\n");
+                            break;
+                        case 5:
+                            strcat(result, "x4 = x4 OP d[i+11];\n");
+                            strcat(result, "x3 = x3 OP (d[i+9] OP d[i+10]);\n");
+                        default:
+                            break;
+                    }
+                    strcat(result, "x2 = x2 OP (d[i+6] OP (d[i+7] OP d[i+8]));\n"
+                                   "x1 = x1 OP (d[i+3] OP (d[i+4] OP d[i+5]));\n"
+                                   "x0 = x0 OP (d[i] OP (d[i+1] OP d[i+2]));\n");
+                } else if (accumulators == 3)
+                    strcat(result, "x2 = x2 OP (d[i+8] OP (d[i+9] OP (d[i+10] OP d[i+11])));\n"
+                                   "x1 = x1 OP (d[i+4] OP (d[i+5] OP (d[i+6] OP d[i+7])));\n"
+                                   "x0 = x0 OP (d[i] OP (d[i+1] OP (d[i+2] OP d[i+3])));\n");
+                else if (accumulators == 2)
+                    strcat(result,
+                           "x1 = x1 OP (d[i+6] OP (d[i+7] OP (d[i+8] OP (d[i+9] OP (d[i+10] OP d[i+11])))));\n"
+                           "x0 = x0 OP (d[i] OP (d[i+1] OP (d[i+2] OP (d[i+3] OP (d[i+4] OP d[i+5])))));\n");
+                else
+                    strcat(result,
+                           "x0 = x0 OP (d[i] OP (d[i+1] OP (d[i+2] OP (d[i+3] OP (d[i+4] OP (d[i+6] OP "
+                           "(d[i+7] OP (d[i+8] OP (d[i+9] OP (d[i+10] OP d[i+11]))))))))));\n");
+            case 11:
+            default:
+                break;
         }
     strcat(result, "}\n"
                    "for (; i < length; i++) {\n"
