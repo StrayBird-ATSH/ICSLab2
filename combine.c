@@ -545,31 +545,30 @@ int methodGenerator(int accumulators, int unrollingFactor) {
                    "}\n");
     switch (accumulators) {
         case 12:
-            strcat(result, "x11 = x11 OP d[i + 11];\n");
+            strcat(result, "x10 = x10 OP x11;\n");
         case 11:
-            strcat(result, "x10 = x10 OP d[i + 10];\n");
+            strcat(result, "x9 = x9 OP x10;\n");
         case 10:
-            strcat(result, "x9 = x9 OP d[i + 9];\n");
+            strcat(result, "x8 = x8 OP x9;\n");
         case 9:
-            strcat(result, "x8 = x8 OP d[i + 8];\n");
+            strcat(result, "x7 = x7 OP x8;\n");
         case 8:
-            strcat(result, "x7 = x7 OP d[i + 7];\n");
+            strcat(result, "x6 = x6 OP x7;\n");
         case 7:
-            strcat(result, "x6 = x6 OP d[i + 6];\n");
+            strcat(result, "x5 = x5 OP x6;\n");
         case 6:
-            strcat(result, "x5 = x5 OP d[i + 5];\n");
+            strcat(result, "x4 = x4 OP x5;\n");
         case 5:
-            strcat(result, "x4 = x4 OP d[i + 4];\n");
+            strcat(result, "x3 = x3 OP x4;\n");
         case 4:
-            strcat(result, "x3 = x3 OP d[i + 3];\n");
+            strcat(result, "x2 = x2 OP x3;\n");
         case 3:
-            strcat(result, "x2 = x2 OP d[i + 2];\n");
+            strcat(result, "x1 = x1 OP x2;\n");
         case 2:
-            strcat(result, "x1 = x1 OP d[i + 1];\n");
+            strcat(result, "x0 = x0 OP x1;\n");
         default:
             break;
     }
-    strcat(result, "*dest = x0 OP x1;\n"
-                   "}\n");
+    strcat(result, "}\n");
     return 0;
 }
