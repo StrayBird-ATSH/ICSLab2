@@ -30,9 +30,20 @@ void unroll2a_combine(vec_ptr v, data_t *dest) {
 int main() {
     for (int j = 1; j <= 12; ++j) {
         for (int i = 1; i <= 12; ++i) {
-            char method[30000];
+            char method[10000] = {""};
+            char address[1000] = {""};
+            char unroll[2] = {""};
+            char accum[2] = {""};
+            strcat(address, "D:\\unroll");
+            strcat(address, itoa(i, unroll, 10));
+            strcat(address, "_accu");
+            strcat(address, itoa(j, accum, 10));
+            strcat(address, ".c");
             methodGenerator(i, j, method);
-            printf("%s", method);
+            FILE *file = fopen(address, "w");
+            fputs(method, file);
+            fflush(file);
+            fclose(file);
         }
     }
     vec_ptr vector = new_vec(10);
