@@ -3,10 +3,11 @@
 //
 #include <stdlib.h>
 #include "string.h"
-int methodGenerator(int accumulators, int unrollingFactor) {
-    char result[] = "void combine(vec_ptr v, data_t *dest) {\n"
-                    "  int length = vec_length(v);\n";
-    strcat(result, "    int limit = length - (");
+
+int methodGenerator(int accumulators, int unrollingFactor, char *result) {
+    strcat(result, "void combine(vec_ptr v, data_t *dest) {\n"
+                   "  int length = vec_length(v);\n"
+                   "    int limit = length - (");
     char unrollChar[] = "01";
     char accuChar[] = "01";
     itoa(accumulators, accuChar, 10);

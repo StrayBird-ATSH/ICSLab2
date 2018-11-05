@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "combine.h"
-#include "methodGen.c"
+#include "string.h"
+
+int methodGenerator(int accumulators, int unrollingFactor, char *address);
 
 void unroll2a_combine(vec_ptr v, data_t *dest) {
     int length = vec_length(v);
@@ -26,6 +28,13 @@ void unroll2a_combine(vec_ptr v, data_t *dest) {
 }
 
 int main() {
+    for (int j = 1; j <= 12; ++j) {
+        for (int i = 1; i <= 12; ++i) {
+            char method[30000];
+            methodGenerator(i, j, method);
+            printf("%s", method);
+        }
+    }
     vec_ptr vector = new_vec(10);
     int value = 0;
     for (int i = 0; i < 10; i++)
