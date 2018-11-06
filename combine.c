@@ -10,8 +10,8 @@
 int methodGenerator(int accumulators, int unrollingFactor, char *address);
 
 void unroll2a_combine(vec_ptr v, data_t *dest) {
-    int length = vec_length(v);
-    int limit = length - 1;
+    long length = vec_length(v);
+    long limit = length - 1;
     data_t *d = get_vec_start(v);
     data_t x0 = IDENT;
     data_t x1 = IDENT;
@@ -28,18 +28,20 @@ void unroll2a_combine(vec_ptr v, data_t *dest) {
     *dest = x0 OP x1;
 }
 
-int main() {
+void generateC() {
     for (int j = 1; j <= 12; ++j) {
         for (int i = 1; i <= 12; ++i) {
             char method[10000] = {""};
             char address[1000] = {""};
             char unroll[2] = {""};
             char accum[2] = {""};
-            strcat(address, "D:\\Documents\\Introduction to Computer System\\Lab\\"
-                            "Lab2 Unrolling&Accumulating\\unroll");
-            strcat(address, itoa(i, unroll, 10));
+            strcat(address, "/media/wang-chen/Documents/Introduction to Computer System/"
+                            "Lab/Lab2 Unrolling&Accumulating/unroll");
+            sprintf(unroll, "%d", i);
+            strcat(address, unroll);
             strcat(address, "_accu");
-            strcat(address, itoa(j, accum, 10));
+            sprintf(accum, "%d", j);
+            strcat(address, accum);
             strcat(address, ".c");
             methodGenerator(j, i, method);
             FILE *file = fopen(address, "w");
@@ -48,29 +50,38 @@ int main() {
             fclose(file);
         }
     }
+}
+
+void generateSo() {
     for (int j = 1; j <= 12; ++j) {
         for (int i = 1; i <= 12; ++i) {
-            char fileName[1000] = {"D:\\Documents\\Introduction to Computer System\\Lab\\"
-                                   "Lab2 Unrolling&Accumulating\\""unroll"};
+            char fileName[1000] = {
+                    "/media/wang-chen/Documents/Introduction to Computer System/"
+                    "Lab/Lab2 Unrolling&Accumulating/unroll"};
             char unroll[2] = {""};
             char accum[2] = {""};
             strcat(fileName, "");
-            strcat(fileName, itoa(i, unroll, 10));
+            sprintf(unroll, "%d", i);
+            strcat(fileName, unroll);
             strcat(fileName, "_accu");
-            strcat(fileName, itoa(j, accum, 10));
-            char arg0[7] = "-shared";
-            char arg1[5] = "-fpic";
-            char arg2[2] = "-o";
+            sprintf(accum, "%d", j);
+            strcat(fileName, accum);
             char arg3[200];
             strcpy(arg3, fileName);
-            strcat(arg3, ".so");
+            strcat(arg3, ".so ");
             char arg4[200];
             strcpy(arg4, fileName);
             strcat(arg4, ".c");
-            const char *argument[5] = {arg0, arg1, arg2, arg3, arg4};
-            execve("C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE", argument, NULL);
+            char *argument = "-shared -fpic -o ";
+            strcat(argument, arg3);
+            strcat(argument, arg4);
+            execve("gcc", &argument, NULL);
         }
     }
+}
+
+int main() {
+    generateC();
     vec_ptr vector = new_vec(10);
     int value = 0;
     for (int i = 0; i < 10; i++)

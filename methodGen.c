@@ -2,7 +2,8 @@
 // Created by StrayBird_ATSH on 05-Nov-18.
 //
 #include <stdlib.h>
-#include "string.h"
+#include <stdio.h>
+#include <string.h>
 
 int methodGenerator(int accumulators, int unrollingFactor, char *result) {
     strcat(result, "void combine(vec_ptr v, data_t *dest) {\n"
@@ -10,8 +11,8 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
                    "    int limit = length - (");
     char unrollChar[] = "01";
     char accuChar[] = "01";
-    itoa(accumulators, accuChar, 10);
-    itoa(unrollingFactor, unrollChar, 10);
+    sprintf(accuChar, "%d", accumulators);
+    sprintf(unrollChar, "%d", unrollingFactor);
     if (accumulators < unrollingFactor)
         strcat(result, accuChar);
     else
