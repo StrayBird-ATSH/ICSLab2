@@ -56,7 +56,7 @@ void generateSo() {
     for (int j = 1; j <= 12; ++j) {
         for (int i = 1; i <= 12; ++i) {
             char fileName[1000] = {
-                    "/media/wang-chen/Documents/Introduction to Computer System/"
+                    "\"/media/wang-chen/Documents/Introduction to Computer System/"
                     "Lab/Lab2 Unrolling&Accumulating/unroll"};
             char unroll[2] = {""};
             char accum[2] = {""};
@@ -68,20 +68,20 @@ void generateSo() {
             strcat(fileName, accum);
             char arg3[200];
             strcpy(arg3, fileName);
-            strcat(arg3, ".so ");
+            strcat(arg3, ".so\" ");
             char arg4[200];
             strcpy(arg4, fileName);
-            strcat(arg4, ".c");
-            char *argument = "-shared -fpic -o ";
+            strcat(arg4, ".c\"");
+            char argument[1000] = "gcc -shared -fpic -o ";
             strcat(argument, arg3);
             strcat(argument, arg4);
-            execve("gcc", &argument, NULL);
+            system(argument);
         }
     }
 }
 
 int main() {
-    generateC();
+    generateSo();
     vec_ptr vector = new_vec(10);
     int value = 0;
     for (int i = 0; i < 10; i++)

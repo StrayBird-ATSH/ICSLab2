@@ -6,7 +6,8 @@
 #include <string.h>
 
 int methodGenerator(int accumulators, int unrollingFactor, char *result) {
-    strcat(result, "void combine(vec_ptr v, data_t *dest) {\n"
+    strcat(result, "#include \"combine.h\"\n"
+                   "void combine(vec_ptr v, data_t *dest) {\n"
                    "  int length = vec_length(v);\n"
                    "    int limit = length - (");
     char unrollChar[] = "01";
