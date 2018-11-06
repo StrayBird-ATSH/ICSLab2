@@ -3,10 +3,13 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
+#include <dlfcn.h>
 #include "combine.h"
 #include "string.h"
 
 int methodGenerator(int accumulators, int unrollingFactor, char *address);
+
+void combine(vec_ptr v, data_t *dest);
 
 void unroll2a_combine(vec_ptr v, data_t *dest) {
     long length = vec_length(v);
@@ -28,14 +31,14 @@ void unroll2a_combine(vec_ptr v, data_t *dest) {
 }
 
 void generateC() {
-    for (int j = 1; j <= 12; ++j) {
-        for (int i = 1; i <= 12; ++i) {
-            char method[10000] = {""};
-            char address[1000] = {""};
-            char unroll[2] = {""};
-            char accum[2] = {""};
+    for (int j = 1; j <= 12; j++)
+        for (int i = 1; i <= 12; i++) {
+            char method[10000] = "";
+            char address[2000] = "";
+            char unroll[4] = "";
+            char accum[4] = "";
             strcat(address, "/media/wang-chen/Documents/Introduction to Computer System/"
-                            "Lab/Lab2 Unrolling&Accumulating/unroll");
+                            "Lab/Lab2 Unrolling&Accumulating/C files/unroll");
             sprintf(unroll, "%d", i);
             strcat(address, unroll);
             strcat(address, "_accu");
@@ -48,7 +51,6 @@ void generateC() {
             fflush(file);
             fclose(file);
         }
-    }
 }
 
 void generateSo() {
@@ -56,9 +58,9 @@ void generateSo() {
         for (int i = 1; i <= 12; ++i) {
             char fileName[1000] = {
                     "\"/media/wang-chen/Documents/Introduction to Computer System/"
-                    "Lab/Lab2 Unrolling&Accumulating/unroll"};
-            char unroll[2] = {""};
-            char accum[2] = {""};
+                    "Lab/Lab2 Unrolling&Accumulating/C files/unroll"};
+            char unroll[4] = {""};
+            char accum[4] = {""};
             strcat(fileName, "");
             sprintf(unroll, "%d", i);
             strcat(fileName, unroll);
@@ -79,14 +81,34 @@ void generateSo() {
     }
 }
 
-int main() {
-    generateSo();
+void linkRun() {
+    void *handle;
+    void (*combine)(vec_ptr, data_t *);
+    char *error;
+    handle = dlopen("/media/wang-chen/Documents/Introduction to Computer System/Lab"
+                    "/Lab2 Unrolling&Accumulating/C files/unroll1_accu2.so", RTLD_GLOBAL | RTLD_NOW);
+    if (!handle) {
+        fprintf(stderr, "%s\n", dlerror());
+        exit(1);
+    }
+    combine = dlsym(handle, "combine");
+    if ((error = dlerror()) != NULL) {
+        fprintf(stderr, "%s\n", error);
+        exit(1);
+    }
     vec_ptr vector = new_vec(10);
     int value = 0;
     for (int i = 0; i < 10; i++)
         set_vec_element(vector, i, 5);
     data_t *data = &value;
-    unroll2a_combine(vector, data);
+    combine(vector, data);
     printf("%d", *data);
-    return 0;
+    if (dlclose(handle) < 0) {
+        fprintf(stderr, "%s\n", dlerror());
+        exit(1);
+    }
+}
+
+int main() {
+    linkRun();
 }

@@ -415,7 +415,7 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
                 else if (accumulators == 2)
                     strcat(result,
                            "x1 = x1 OP (d[i+4] OP (d[i+5] OP d[i+6]));\n"
-                           "x0 = x0 OP (d[i] OP (d[i+1] OP (d[i+2] OP d[i+3]))));\n");
+                           "x0 = x0 OP (d[i] OP (d[i+1] OP (d[i+2] OP d[i+3])));\n");
                 else
                     strcat(result,
                            "x0 = x0 OP (d[i] OP (d[i+1] OP (d[i+2] OP (d[i+3] OP (d[i+4] OP (d[i+5] OP "
@@ -452,7 +452,7 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
                 } else if (accumulators == 2)
                     strcat(result,
                            "x1 = x1 OP (d[i+3] OP (d[i+4] OP d[i+5]));\n"
-                           "x0 = x0 OP (d[i] OP (d[i+1] OP d[i+2])));\n");
+                           "x0 = x0 OP (d[i] OP (d[i+1] OP d[i+2]));\n");
                 else
                     strcat(result,
                            "x0 = x0 OP (d[i] OP (d[i+1] OP (d[i+2] OP (d[i+3] OP (d[i+4] OP d[i+5])))));\n");
@@ -474,7 +474,7 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
                 } else if (accumulators == 2)
                     strcat(result,
                            "x1 = x1 OP (d[i+3] OP d[i+4]);\n"
-                           "x0 = x0 OP (d[i] OP (d[i+1] OP d[i+2])));\n");
+                           "x0 = x0 OP (d[i] OP (d[i+1] OP d[i+2]));\n");
                 else
                     strcat(result,
                            "x0 = x0 OP (d[i] OP (d[i+1] OP (d[i+2] OP (d[i+3] OP d[i+4]))));\n");
@@ -488,7 +488,7 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
                 else if (accumulators == 2)
                     strcat(result,
                            "x1 = x1 OP (d[i+2] OP d[i+3]);\n"
-                           "x0 = x0 OP (d[i] OP d[i+1]));\n");
+                           "x0 = x0 OP (d[i] OP d[i+1]);\n");
                 else
                     strcat(result,
                            "x0 = x0 OP (d[i] OP (d[i+1] OP (d[i+2] OP d[i+3])));\n");
@@ -497,7 +497,7 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
                 if (accumulators == 2)
                     strcat(result,
                            "x1 = x1 OP d[i+2];\n"
-                           "x0 = x0 OP (d[i] OP d[i+1]));\n");
+                           "x0 = x0 OP (d[i] OP d[i+1]);\n");
                 else
                     strcat(result,
                            "x0 = x0 OP (d[i] OP (d[i+1] OP d[i+2]));\n");
