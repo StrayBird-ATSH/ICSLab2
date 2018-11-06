@@ -14,7 +14,8 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
     itoa(unrollingFactor, unrollChar, 10);
     if (accumulators < unrollingFactor)
         strcat(result, accuChar);
-    strcat(result, unrollChar);
+    else
+        strcat(result, unrollChar);
     strcat(result, " - 1);\n"
                    "data_t *d = get_vec_start(v);\n"
                    "data_t x0 = IDENT;\n");

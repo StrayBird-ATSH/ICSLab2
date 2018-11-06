@@ -34,12 +34,13 @@ int main() {
             char address[1000] = {""};
             char unroll[2] = {""};
             char accum[2] = {""};
-            strcat(address, "D:\\unroll");
+            strcat(address, "D:\\Documents\\Introduction to Computer System\\Lab\\"
+                            "Lab2 Unrolling&Accumulating\\unroll");
             strcat(address, itoa(i, unroll, 10));
             strcat(address, "_accu");
             strcat(address, itoa(j, accum, 10));
             strcat(address, ".c");
-            methodGenerator(i, j, method);
+            methodGenerator(j, i, method);
             FILE *file = fopen(address, "w");
             fputs(method, file);
             fflush(file);
