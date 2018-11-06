@@ -3,6 +3,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "combine.h"
 #include "string.h"
 
@@ -45,6 +46,29 @@ int main() {
             fputs(method, file);
             fflush(file);
             fclose(file);
+        }
+    }
+    for (int j = 1; j <= 12; ++j) {
+        for (int i = 1; i <= 12; ++i) {
+            char fileName[1000] = {"D:\\Documents\\Introduction to Computer System\\Lab\\"
+                                   "Lab2 Unrolling&Accumulating\\""unroll"};
+            char unroll[2] = {""};
+            char accum[2] = {""};
+            strcat(fileName, "");
+            strcat(fileName, itoa(i, unroll, 10));
+            strcat(fileName, "_accu");
+            strcat(fileName, itoa(j, accum, 10));
+            char arg0[7] = "-shared";
+            char arg1[5] = "-fpic";
+            char arg2[2] = "-o";
+            char arg3[200];
+            strcpy(arg3, fileName);
+            strcat(arg3, ".so");
+            char arg4[200];
+            strcpy(arg4, fileName);
+            strcat(arg4, ".c");
+            const char *argument[5] = {arg0, arg1, arg2, arg3, arg4};
+            execve("C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE", argument, NULL);
         }
     }
     vec_ptr vector = new_vec(10);
