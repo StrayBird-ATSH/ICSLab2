@@ -3,7 +3,6 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include "combine.h"
 #include "string.h"
 

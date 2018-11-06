@@ -1,7 +1,6 @@
 //
 // Created by StrayBird_ATSH on 05-Nov-18.
 //
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
