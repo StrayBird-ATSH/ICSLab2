@@ -539,6 +539,7 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
         default:
             break;
     }
-    strcat(result, "}\n");
+    strcat(result, "*dest = x0;\n"
+                   "}\n");
     return 0;
 }

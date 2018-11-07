@@ -37,8 +37,8 @@ void generateC() {
             char address[2000] = "";
             char unroll[4] = "";
             char accum[4] = "";
-            strcat(address, "/media/wang-chen/Documents/Introduction to Computer System/"
-                            "Lab/Lab2 Unrolling&Accumulating/C files/unroll");
+            strcat(address, "/media/straybird/LENOVO/Documents/Introduction to Computer System/Lab/"
+                            "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll");
             sprintf(unroll, "%d", i);
             strcat(address, unroll);
             strcat(address, "_accu");
@@ -57,8 +57,8 @@ void generateSo() {
     for (int j = 1; j <= 12; ++j) {
         for (int i = 1; i <= 12; ++i) {
             char fileName[1000] = {
-                    "\"/media/wang-chen/Documents/Introduction to Computer System/"
-                    "Lab/Lab2 Unrolling&Accumulating/C files/unroll"};
+                    "\"/media/straybird/LENOVO/Documents/Introduction to Computer System/Lab/"
+                    "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll"};
             char unroll[4] = {""};
             char accum[4] = {""};
             strcat(fileName, "");
@@ -85,8 +85,8 @@ void linkRun() {
     void *handle;
     void (*combine)(vec_ptr, data_t *);
     char *error;
-    handle = dlopen("/media/wang-chen/Documents/Introduction to Computer System/Lab"
-                    "/Lab2 Unrolling&Accumulating/C files/unroll1_accu2.so", RTLD_GLOBAL | RTLD_NOW);
+    handle = dlopen("/media/straybird/LENOVO/Documents/Introduction to Computer System/Lab/"
+                    "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll1_accu2.so", RTLD_GLOBAL | RTLD_NOW);
     if (!handle) {
         fprintf(stderr, "%s\n", dlerror());
         exit(1);
@@ -99,10 +99,10 @@ void linkRun() {
     vec_ptr vector = new_vec(10);
     int value = 0;
     for (int i = 0; i < 10; i++)
-        set_vec_element(vector, i, 5);
+        set_vec_element(vector, i, 1);
     data_t *data = &value;
     combine(vector, data);
-    printf("%d", *data);
+    printf("The result after combine is %d\n", *data);
     if (dlclose(handle) < 0) {
         fprintf(stderr, "%s\n", dlerror());
         exit(1);
