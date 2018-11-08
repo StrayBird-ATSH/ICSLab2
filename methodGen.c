@@ -7,7 +7,7 @@
 int methodGenerator(int accumulators, int unrollingFactor, char *result) {
     strcat(result, "#include \"combine.h\"\n"
                    "#include \"stdio.h\"\n"
-                   "#include <time.h>\n"
+                   "#include <sys/time.h>\n"
                    "void combine(vec_ptr v, data_t *dest) {\n"
                    "  int length = vec_length(v);\n"
                    "    int limit = length - (");
@@ -49,7 +49,8 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
             break;
     }
     strcat(result, "int i;\n"
-                   "clock_t startTime = clock();\n");
+                   "struct timeval time_begin, time_end;\n"
+                   "gettimeofday(&time_begin, NULL);\n");
     strcat(result, "for (i = 0; i < limit; i +=");
     strcat(result, unrollChar);
     strcat(result, ") {\n");
@@ -544,11 +545,12 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
         default:
             break;
     }
-    strcat(result, "clock_t finishTime = clock();\n"
-                   "double cyclesComsumed = (double) (finishTime - startTime) ;\n"
+    strcat(result, "gettimeofday(&time_end, NULL);\n"
+                   "long timeConsumed = time_end.tv_usec - time_begin.tv_usec;\n"
                    "printf(\"The result after combine is %d\\n\"\n"
-                   "           \"The time used is %f\\n\"\n"
-                   "           \"CPE is %f\\n\", *dest, cyclesComsumed, (cyclesComsumed * 2.6e9 / 1000)\n"
+                   "           \"The time used is %ld us\\n\"\n"
+                   "           \"CPE is %f\\n\", x0, "
+                   "timeConsumed,  (double) (timeConsumed * 2.6e3 )/ 1000000\n"
                    "    );\n"
                    "*dest = x0;\n"
                    "}\n");

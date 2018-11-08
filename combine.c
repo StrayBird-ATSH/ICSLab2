@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <dlfcn.h>
-#include <time.h>
+#include <sys/time.h>
 #include "combine.h"
 #include "string.h"
 
@@ -84,37 +84,63 @@ void generateSo() {
 }
 
 void linkRun() {
-    void *handle;
-    void (*combine)(vec_ptr, data_t *);
-    char *error;
-    handle = dlopen("/media/straybird/LENOVO/Documents/Introduction to Computer System/Lab/"
-                    "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll1_accu10.so", RTLD_GLOBAL | RTLD_NOW);
-    if (!handle) {
-        fprintf(stderr, "%s\n", dlerror());
-        exit(1);
+    FILE *file = fopen("./dataOut.data", "w");
+    fprintf(file, "1 2 3 4 5 6 7 8 9 10 11 12\n");
+    for (int j = 1; j <= 12; j++) {
+        fprintf(file, "%d ", j);
+        for (int i = 1; i <= 12; i++) {
+            char address[2000] = "";
+            char unroll[4] = "";
+            char accum[4] = "";
+            strcat(address, "/media/straybird/LENOVO/Documents/Introduction to Computer System/Lab/"
+                            "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll");
+            sprintf(unroll, "%d", i);
+            strcat(address, unroll);
+            strcat(address, "_accu");
+            sprintf(accum, "%d", j);
+            strcat(address, accum);
+            strcat(address, ".so");
+            void *handle;
+            void (*combine)(vec_ptr, data_t *);
+            char *error;
+            handle = dlopen(address, RTLD_GLOBAL | RTLD_NOW);
+            if (!handle) {
+                fprintf(stderr, "%s\n", dlerror());
+                exit(1);
+            }
+            combine = dlsym(handle, "combine");
+            if ((error = dlerror()) != NULL) {
+                fprintf(stderr, "%s\n", error);
+                exit(1);
+            }
+            vec_ptr vector = new_vec((long) 1e7);
+            int value = 0;
+            for (int i1 = 0; i1 < 1e7; i1++)
+                set_vec_element(vector, i1, 5);
+            data_t *data = &value;
+            struct timeval time_begin, time_end;
+            double dump = 100;
+            for (int j1 = 0; j1 < 1e6; ++j1)
+                dump *= j1;
+            gettimeofday(&time_begin, NULL);
+            printf("%f", dump);
+            combine(vector, data);
+            gettimeofday(&time_end, NULL);
+            long timeConsumed = time_end.tv_usec - time_begin.tv_usec;
+            printf("The result after combine is %d\n"
+                   "The time used is %ld us\n"
+                   "CPE is %f\n", *data, timeConsumed, (double) (timeConsumed * 2600) / 1e7
+            );
+            if (dlclose(handle) < 0) {
+                fprintf(stderr, "%s\n", dlerror());
+                exit(1);
+            }
+            fprintf(file, "%f ", (double) (timeConsumed * 2600) / 1e7);
+            fflush(file);
+        }
+        fprintf(file, "\n");
     }
-    combine = dlsym(handle, "combine");
-    if ((error = dlerror()) != NULL) {
-        fprintf(stderr, "%s\n", error);
-        exit(1);
-    }
-    vec_ptr vector = new_vec(10000);
-    int value = 0;
-    for (int i = 0; i < 10000; i++)
-        set_vec_element(vector, i, 5);
-    data_t *data = &value;
-    clock_t startTime = clock();
-    combine(vector, data);
-    clock_t finishTime = clock();
-    double timeComsumed = (double) (finishTime - startTime);
-    printf("The result after combine is %d\n"
-           "The time used is %f\n"
-           "CPE is %f\n", *data, timeComsumed, (timeComsumed / 1000)
-    );
-    if (dlclose(handle) < 0) {
-        fprintf(stderr, "%s\n", dlerror());
-        exit(1);
-    }
+    fclose(file);
 }
 
 int main() {
