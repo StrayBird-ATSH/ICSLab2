@@ -6,6 +6,7 @@
 
 int methodGenerator(int accumulators, int unrollingFactor, char *result) {
     strcat(result, "#include \"combine.h\"\n"
+                   "#include \"stdio.h\"\n"
                    "void combine(vec_ptr v, data_t *dest) {\n"
                    "  int length = vec_length(v);\n"
                    "    int limit = length - (");
@@ -513,6 +514,8 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
                    "for (; i < length; i++) {\n"
                    "        x0 = x0 OP d[i];\n"
                    "}\n");
+    if (unrollingFactor < accumulators)
+        accumulators = unrollingFactor;
     switch (accumulators) {
         case 12:
             strcat(result, "x10 = x10 OP x11;\n");
@@ -539,7 +542,8 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
         default:
             break;
     }
-    strcat(result, "*dest = x0;\n"
+    strcat(result, "printf(\"The result after combine is %d\\n\", x0);"
+                   "*dest = x0;\n"
                    "}\n");
     return 0;
 }

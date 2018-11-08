@@ -86,7 +86,7 @@ void linkRun() {
     void (*combine)(vec_ptr, data_t *);
     char *error;
     handle = dlopen("/media/straybird/LENOVO/Documents/Introduction to Computer System/Lab/"
-                    "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll1_accu2.so", RTLD_GLOBAL | RTLD_NOW);
+                    "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll1_accu10.so", RTLD_GLOBAL | RTLD_NOW);
     if (!handle) {
         fprintf(stderr, "%s\n", dlerror());
         exit(1);
@@ -96,10 +96,10 @@ void linkRun() {
         fprintf(stderr, "%s\n", error);
         exit(1);
     }
-    vec_ptr vector = new_vec(10);
+    vec_ptr vector = new_vec(1000);
     int value = 0;
-    for (int i = 0; i < 10; i++)
-        set_vec_element(vector, i, 1);
+    for (int i = 0; i < 1000; i++)
+        set_vec_element(vector, i, 5);
     data_t *data = &value;
     combine(vector, data);
     printf("The result after combine is %d\n", *data);
