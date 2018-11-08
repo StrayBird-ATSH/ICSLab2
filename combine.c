@@ -38,8 +38,9 @@ void generateC() {
             char address[2000] = "";
             char unroll[4] = "";
             char accum[4] = "";
-            strcat(address, "/media/straybird/LENOVO/Documents/Introduction to Computer System/Lab/"
-                            "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll");
+            strcat(address,
+                   "/media/wang-chen/Documents/Introduction to Computer System/Lab/Lab2 "
+                   "Unrolling&Accumulating/C files/unroll");
             sprintf(unroll, "%d", i);
             strcat(address, unroll);
             strcat(address, "_accu");
@@ -59,8 +60,8 @@ void generateSo() {
     for (int j = 1; j <= 12; ++j) {
         for (int i = 1; i <= 12; ++i) {
             char fileName[1000] = {
-                    "\"/media/straybird/LENOVO/Documents/Introduction to Computer System/Lab/"
-                    "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll"};
+                    "\"/media/wang-chen/Documents/Introduction to Computer System/Lab/"
+                    "Lab2 Unrolling&Accumulating/C files/unroll"};
             char unroll[4] = {""};
             char accum[4] = {""};
             strcat(fileName, "");
@@ -92,8 +93,8 @@ void linkRun() {
             char address[2000] = "";
             char unroll[4] = "";
             char accum[4] = "";
-            strcat(address, "/media/straybird/LENOVO/Documents/Introduction to Computer System/Lab/"
-                            "Lab2 Unrolling&Accumulating/IntermediateFiles/unroll");
+            strcat(address, "/media/wang-chen/Documents/Introduction to "
+                            "Computer System/Lab/Lab2 Unrolling&Accumulating/C files/unroll");
             sprintf(unroll, "%d", i);
             strcat(address, unroll);
             strcat(address, "_accu");
@@ -144,5 +145,5 @@ void linkRun() {
 }
 
 int main() {
-    linkRun();
+   linkRun();
 }
