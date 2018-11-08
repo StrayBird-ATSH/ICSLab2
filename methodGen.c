@@ -7,6 +7,7 @@
 int methodGenerator(int accumulators, int unrollingFactor, char *result) {
     strcat(result, "#include \"combine.h\"\n"
                    "#include \"stdio.h\"\n"
+                   "#include <time.h>\n"
                    "void combine(vec_ptr v, data_t *dest) {\n"
                    "  int length = vec_length(v);\n"
                    "    int limit = length - (");
@@ -47,7 +48,8 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
         default:
             break;
     }
-    strcat(result, "int i;\n");
+    strcat(result, "int i;\n"
+                   "clock_t startTime = clock();\n");
     strcat(result, "for (i = 0; i < limit; i +=");
     strcat(result, unrollChar);
     strcat(result, ") {\n");
@@ -542,7 +544,12 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
         default:
             break;
     }
-    strcat(result, "printf(\"The result after combine is %d\\n\", x0);"
+    strcat(result, "clock_t finishTime = clock();\n"
+                   "double cyclesComsumed = (double) (finishTime - startTime) ;\n"
+                   "printf(\"The result after combine is %d\\n\"\n"
+                   "           \"The time used is %f\\n\"\n"
+                   "           \"CPE is %f\\n\", *dest, cyclesComsumed, (cyclesComsumed * 2.6e9 / 1000)\n"
+                   "    );\n"
                    "*dest = x0;\n"
                    "}\n");
     return 0;

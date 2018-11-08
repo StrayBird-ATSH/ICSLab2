@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <dlfcn.h>
+#include <time.h>
 #include "combine.h"
 #include "string.h"
 
@@ -54,6 +55,7 @@ void generateC() {
 }
 
 void generateSo() {
+    printf("The generating So file process.");
     for (int j = 1; j <= 12; ++j) {
         for (int i = 1; i <= 12; ++i) {
             char fileName[1000] = {
@@ -96,13 +98,19 @@ void linkRun() {
         fprintf(stderr, "%s\n", error);
         exit(1);
     }
-    vec_ptr vector = new_vec(1000);
+    vec_ptr vector = new_vec(10000);
     int value = 0;
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 10000; i++)
         set_vec_element(vector, i, 5);
     data_t *data = &value;
+    clock_t startTime = clock();
     combine(vector, data);
-    printf("The result after combine is %d\n", *data);
+    clock_t finishTime = clock();
+    double timeComsumed = (double) (finishTime - startTime);
+    printf("The result after combine is %d\n"
+           "The time used is %f\n"
+           "CPE is %f\n", *data, timeComsumed, (timeComsumed / 1000)
+    );
     if (dlclose(handle) < 0) {
         fprintf(stderr, "%s\n", dlerror());
         exit(1);
