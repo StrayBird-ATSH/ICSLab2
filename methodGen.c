@@ -8,7 +8,7 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
     strcat(result, "#include \"combine.h\"\n"
                    "#include \"stdio.h\"\n"
                    "#include <sys/time.h>\n"
-                   "void combine(vec_ptr v, data_t *dest) {\n"
+                   "long combine(vec_ptr v, data_t *dest) {\n"
                    "  int length = vec_length(v);\n"
                    "    int limit = length - (");
     char unrollChar[] = "01";
@@ -553,6 +553,7 @@ int methodGenerator(int accumulators, int unrollingFactor, char *result) {
                    "timeConsumed,  (double) (timeConsumed * 2.6e3 )/ 1000000\n"
                    "    );\n"
                    "*dest = x0;\n"
+                   "return timeConsumed;\n"
                    "}\n");
     return 0;
 }

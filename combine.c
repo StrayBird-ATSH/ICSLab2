@@ -101,7 +101,7 @@ void linkRun() {
             strcat(address, accum);
             strcat(address, ".so");
             void *handle;
-            void (*combine)(vec_ptr, data_t *);
+            long (*combine)(vec_ptr, data_t *);
             char *error;
             handle = dlopen(address, RTLD_GLOBAL | RTLD_NOW);
             if (!handle) {
@@ -113,29 +113,32 @@ void linkRun() {
                 fprintf(stderr, "%s\n", error);
                 exit(1);
             }
-            vec_ptr vector = new_vec((long) 1e7);
+
+            vec_ptr vector = new_vec((long) 1e6);
             int value = 0;
-            for (int i1 = 0; i1 < 1e7; i1++)
+            for (int i1 = 0; i1 < 1e6; i1++)
                 set_vec_element(vector, i1, 5);
             data_t *data = &value;
-            struct timeval time_begin, time_end;
             double dump = 100;
             for (int j1 = 0; j1 < 1e6; ++j1)
                 dump *= j1;
-            gettimeofday(&time_begin, NULL);
-            printf("%f", dump);
-            combine(vector, data);
-            gettimeofday(&time_end, NULL);
-            long timeConsumed = time_end.tv_usec - time_begin.tv_usec;
-            printf("The result after combine is %d\n"
-                   "The time used is %ld us\n"
-                   "CPE is %f\n", *data, timeConsumed, (double) (timeConsumed * 2600) / 1e7
-            );
+            long timeConsumed1 = combine(vector, data);
+            vector = new_vec((long) 1e5);
+            value = 0;
+            for (int i1 = 0; i1 < 1e5; i1++)
+                set_vec_element(vector, i1, 5);
+            data = &value;
+            dump = 100;
+            for (int j1 = 0; j1 < 1e6; ++j1)
+                dump *= j1;
+            long timeConsumed2 = combine(vector, data);
             if (dlclose(handle) < 0) {
                 fprintf(stderr, "%s\n", dlerror());
                 exit(1);
             }
-            fprintf(file, "%f ", (double) (timeConsumed * 2600) / 1e7);
+            printf("Time consumed1 is %ld\n", timeConsumed1);
+            printf("Time consumed2 is %ld\n", timeConsumed2);
+            fprintf(file, "%f ", (double) (timeConsumed1 - timeConsumed2) * 2600 / 9e5);
             fflush(file);
         }
         fprintf(file, "\n");
